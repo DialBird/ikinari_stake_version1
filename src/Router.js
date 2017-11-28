@@ -24,7 +24,8 @@ const SignedIn = StackNavigator({
   Home: {
     screen: HomeScreen,
     navigationOptions: {
-      title: 'ホーム'
+      gesturesEnabled: false,
+      header: null
     }
   }
 });
