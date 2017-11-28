@@ -8,6 +8,9 @@ import {
   Dimensions
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {
+  INFO, RANK, MYPAGE, MENU, SHOPLIST, COUPON, SHOPPING, SNS, OTHERS
+} from '../../titles';
 
 const BlockButton = ({ icon, title, onPress }) => (
   <TouchableOpacity style={styles.blockButton} onPress={onPress}>
@@ -31,22 +34,22 @@ export default class HomeScreen extends React.Component {
         <View style={{flex: 1}}>
           <View style={styles.buttonWrapper}>
             <BlockButton
-              title='お知らせ'
+              title={INFO}
               icon='ios-information-circle'
               onPress={()=>navigate('Info')}
             />
-            <BlockButton title='ランキング' icon='ios-star'/>
-            <BlockButton title='鳥マイレージ' icon='ios-plane'/>
+            <BlockButton title={RANK} icon='ios-star'/>
+            <BlockButton title={MYPAGE} icon='ios-plane'/>
           </View>
           <View style={styles.buttonWrapper}>
-            <BlockButton title='メニュー' icon='ios-book'/>
-            <BlockButton title='店舗一覧' icon='ios-cart'/>
-            <BlockButton title='会員特典' icon='ios-card'/>
+            <BlockButton title={MENU} icon='ios-book'/>
+            <BlockButton title={SHOPLIST} icon='ios-cart'/>
+            <BlockButton title={COUPON} icon='ios-card'/>
           </View>
           <View style={styles.buttonWrapper}>
-            <BlockButton title='ショップ' icon='ios-cart'/>
-            <BlockButton title='facebook' icon='logo-facebook'/>
-            <BlockButton title='その他' icon='ios-more'/>
+            <BlockButton title={SHOPPING} icon='ios-cart'/>
+            <BlockButton title={SNS} icon='logo-facebook'/>
+            <BlockButton title={OTHERS} icon='ios-more'/>
           </View>
         </View>
       </View>
