@@ -78,17 +78,6 @@ class RankScreen extends React.Component {
     this.getUserData(selectedIndex);
   }
 
-  renderRow(user, _, i) {
-    const { name, point } = user;
-    return (
-      <View key={i} style={styles.listViewRow}>
-        <Text style={{flex: 1, textAlign: 'center'}}>第{parseInt(i) + 1}位</Text>
-        <Text style={{flex: 1, textAlign: 'center'}}>{point}</Text>
-        <Text style={{flex: 2}}>{name}</Text>
-      </View>
-    );
-  }
-
   renderItem({ item, index }) {
     const { name, point } = item;
     return (
@@ -127,22 +116,26 @@ class RankScreen extends React.Component {
     ];
 
     return (
-      <View>
-        <MyStatus user={this.state.user}/>
-        <ButtonGroup
-          selectedIndex={this.state.selectedIndex}
-          onPress={this.updateIndex.bind(this)}
-          buttons={buttons}
-          containerStyle={{height: 100}}
-        />
-        <FlatList
-          data={this.state.data}
-          keyExtractor={item => item.id}
-          renderItem={this.renderItem}
-          ItemSeparatorComponent={this.renderSeparator}
-          refreshing={this.state.refreshing}
-          onRefresh={this.onRefresh.bind(this)}
-        />
+      <View style={{flex: 1}}>
+        <View style={{flex: 1}}>
+          <MyStatus user={this.state.user}/>
+          <ButtonGroup
+            selectedIndex={this.state.selectedIndex}
+            onPress={this.updateIndex.bind(this)}
+            buttons={buttons}
+            containerStyle={{height: 100}}
+          />
+        </View>
+        <View style={{flex: 2}}>
+          <FlatList
+            data={this.state.data}
+            keyExtractor={item => item.id}
+            renderItem={this.renderItem}
+            ItemSeparatorComponent={this.renderSeparator}
+            refreshing={this.state.refreshing}
+            onRefresh={this.onRefresh.bind(this)}
+          />
+        </View>
       </View>
     );
   }
