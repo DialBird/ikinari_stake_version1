@@ -13,13 +13,20 @@ import sharedStyles from '../../sharedStyles';
 class InfoScreen extends React.Component {
   constructor() {
     super();
-    this.state = { data: [] };
+    this.state = { data: [], refreshing: false };
+  }
+
+  getInfoData() {
+    axios.get(INFOS_URL)
+      .then((res)=>this.setState({ data: res.data, refreshing: false }))
+      .catch((e)=>{
+        this.setState({ data: [], refreshing: false });
+        alert(`axios get error: ${e.message}`);
+      });
   }
 
   componentWillMount() {
-    axios.get(INFOS_URL)
-      .then((res)=>this.setState({ data: res.data }))
-      .catch((e)=>alert(`axios get error: ${e.message}`));
+    this.getInfoData();
   }
 
   renderItem({item}) {
@@ -38,14 +45,22 @@ class InfoScreen extends React.Component {
     return <View key={rowId} style={sharedStyles.separator} />;
   }
 
+  onRefresh() {
+    this.setState({refreshing: true}, () => {
+      this.getInfoData();
+    });
+  }
+
   render() {
     return (
       <View>
         <FlatList
           data={this.state.data}
           keyExtractor={item => item.id}
-          renderItem={this.renderItem}
+          renderItem={this.renderItem.bind(this)}
           ItemSeparatorComponent={this.renderSeparator}
+          refreshing={this.state.refreshing}
+          onRefresh={this.onRefresh.bind(this)}
         />
       </View>
     );

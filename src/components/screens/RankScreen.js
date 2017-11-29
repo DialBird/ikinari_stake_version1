@@ -35,7 +35,7 @@ const ButtonGroupItem = ({ iconName, title }) => (
 class RankScreen extends React.Component {
   constructor() {
     super();
-    this.state = { selectedIndex: 0, user: {}, data: [] };
+    this.state = { selectedIndex: 0, user: {}, data: [], refreshing: false };
   }
 
   componentWillMount() {
@@ -45,10 +45,10 @@ class RankScreen extends React.Component {
         this.setState({user: res.data});
       })
       .catch(err => alert('情報を取得できませんでした: ' + err));
-    this.getData(this.state.selectedIndex);
+    this.getUserData(this.state.selectedIndex);
   }
 
-  getData(selectedIndex) {
+  getUserData(selectedIndex) {
     let url = '';
     switch (selectedIndex) {
       case 0:
@@ -65,17 +65,17 @@ class RankScreen extends React.Component {
     }
     axios.get(url)
       .then(res => {
-        this.setState({data: res.data});
+        this.setState({data: res.data, refreshing: false});
       })
       .catch(err => {
-        this.setState({data: []});
+        this.setState({data: [], refreshing: false});
         alert('Error occured: ' + err.response.data);
       });
   }
 
   updateIndex(selectedIndex) {
     this.setState({selectedIndex});
-    this.getData(selectedIndex);
+    this.getUserData(selectedIndex);
   }
 
   renderRow(user, _, i) {
@@ -102,6 +102,12 @@ class RankScreen extends React.Component {
 
   renderSeparator(sectionId, rowId) {
     return <View key={rowId} style={sharedStyles.separator}/>;
+  }
+
+  onRefresh() {
+    this.setState({refreshing: true}, ()=>{
+      this.getUserData(this.state.selectedIndex);
+    });
   }
 
   render() {
@@ -134,6 +140,8 @@ class RankScreen extends React.Component {
           keyExtractor={item => item.id}
           renderItem={this.renderItem}
           ItemSeparatorComponent={this.renderSeparator}
+          refreshing={this.state.refreshing}
+          onRefresh={this.onRefresh.bind(this)}
         />
       </View>
     );
