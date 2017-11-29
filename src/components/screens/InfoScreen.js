@@ -7,6 +7,7 @@ import {
   TouchableOpacity
 } from 'react-native';
 import axios from 'axios';
+import { INFOS_URL } from '../../apiUrls';
 
 class InfoScreen extends React.Component {
   constructor() {
@@ -15,7 +16,7 @@ class InfoScreen extends React.Component {
   }
 
   componentWillMount() {
-    axios.get('http://lala.work/api/v1/info_articles')
+    axios.get(INFOS_URL)
       .then((res)=>this.setState({ data: res.data }))
       .catch((e)=>alert(`axios get error: ${e.message}`));
   }

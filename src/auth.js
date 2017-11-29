@@ -1,14 +1,15 @@
 import { AsyncStorage } from 'react-native';
 import axios from 'axios';
+import { LOGIN_URL, USERS_URL } from './apiUrls';
 
 export const USER_KEY = 'auth-demo-key';
 
 export const onSignIn = (user) => {
-  return axios.post('http://lala.work/api/v1/login', user);
+  return axios.post(LOGIN_URL, user);
 };
 
 export const onSignUp = (user) => {
-  return axios.post('http://lala.work/api/v1/users', user);
+  return axios.post(USERS_URL, user);
 };
 
 export const onSignOut = () => AsyncStorage.removeItem(USER_KEY);
@@ -22,7 +23,7 @@ export const storeToken = (accessToken) => {
 };
 
 export const getProfile = (accessToken) => {
-  return axios.get(`http://lala.work/api/v1/users/${accessToken}`);
+  return axios.get(USERS_URL + '/' + accessToken);
 };
 
 export const getToken = () => {
