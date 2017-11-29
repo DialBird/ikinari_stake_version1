@@ -9,6 +9,7 @@ import {
 import axios from 'axios';
 import { INFOS_URL } from '../../apiUrls';
 import sharedStyles from '../../sharedStyles';
+import { List } from 'react-native-elements';
 
 class InfoScreen extends React.Component {
   constructor() {
@@ -54,14 +55,16 @@ class InfoScreen extends React.Component {
   render() {
     return (
       <View>
-        <FlatList
-          data={this.state.data}
-          keyExtractor={item => item.id}
-          renderItem={this.renderItem.bind(this)}
-          ItemSeparatorComponent={this.renderSeparator}
-          refreshing={this.state.refreshing}
-          onRefresh={this.onRefresh.bind(this)}
-        />
+        <List>
+          <FlatList
+            data={this.state.data}
+            keyExtractor={item => item.id}
+            renderItem={this.renderItem.bind(this)}
+            ItemSeparatorComponent={this.renderSeparator}
+            refreshing={this.state.refreshing}
+            onRefresh={this.onRefresh.bind(this)}
+          />
+        </List>
       </View>
     );
   }

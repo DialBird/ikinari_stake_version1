@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import axios from 'axios';
-import { ButtonGroup } from 'react-native-elements';
+import { ButtonGroup, List } from 'react-native-elements';
 import sharedStyles from '../../sharedStyles.js';
 import { getToken, getProfile } from '../../auth';
 import { USERS_URL } from '../../apiUrls';
@@ -135,14 +135,16 @@ class RankScreen extends React.Component {
           buttons={buttons}
           containerStyle={{height: 100}}
         />
-        <FlatList
-          data={this.state.data}
-          keyExtractor={item => item.id}
-          renderItem={this.renderItem}
-          ItemSeparatorComponent={this.renderSeparator}
-          refreshing={this.state.refreshing}
-          onRefresh={this.onRefresh.bind(this)}
-        />
+        <List containerStyle={{borderTopWidth: 0, borderBottomWidth: 0}}>
+          <FlatList
+            data={this.state.data}
+            keyExtractor={item => item.id}
+            renderItem={this.renderItem}
+            ItemSeparatorComponent={this.renderSeparator}
+            refreshing={this.state.refreshing}
+            onRefresh={this.onRefresh.bind(this)}
+          />
+        </List>
       </View>
     );
   }
