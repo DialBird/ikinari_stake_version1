@@ -9,17 +9,17 @@ import {
 import axios from 'axios';
 import { INFOS_URL } from '../../apiUrls';
 import sharedStyles from '../../sharedStyles';
-import { List } from 'react-native-elements';
+import { SearchBar } from 'react-native-elements';
 
 class InfoScreen extends React.Component {
   constructor() {
     super();
-    this.state = { data: [], refreshing: false };
+    this.state = { initialData: [], data: [], refreshing: false, searchText: '' };
   }
 
   getInfoData() {
     axios.get(INFOS_URL)
-      .then((res)=>this.setState({ data: res.data, refreshing: false }))
+      .then((res)=>this.setState({ initialData: res.data, data: res.data, refreshing: false }))
       .catch((e)=>{
         this.setState({ data: [], refreshing: false });
         alert(`axios get error: ${e.message}`);
@@ -47,6 +47,26 @@ class InfoScreen extends React.Component {
     return <View key={rowId} style={sharedStyles.separator} />;
   }
 
+  renderHeader() {
+    return (
+      <SearchBar
+        placeholder='Type here...'
+        onChangeText={this.filterInfo.bind(this)}
+        value={this.state.searchText}
+        autoFocus={true}
+        lightTheme round
+      />
+    );
+  }
+
+  filterInfo(text) {
+    text = text.toLowerCase();
+    const filteredResult = this.state.initialData.filter(item => {
+      return item.title.toLowerCase().match(text);
+    });
+    this.setState({data: filteredResult, searchText: text});
+  }
+
   onRefresh() {
     this.setState({refreshing: true}, () => {
       this.getInfoData();
@@ -56,16 +76,15 @@ class InfoScreen extends React.Component {
   render() {
     return (
       <View>
-        <List>
-          <FlatList
-            data={this.state.data}
-            keyExtractor={item => item.id}
-            renderItem={this.renderItem.bind(this)}
-            ItemSeparatorComponent={this.renderSeparator}
-            refreshing={this.state.refreshing}
-            onRefresh={this.onRefresh.bind(this)}
-          />
-        </List>
+        <FlatList
+          data={this.state.data}
+          keyExtractor={item => item.id}
+          renderItem={this.renderItem.bind(this)}
+          ItemSeparatorComponent={this.renderSeparator}
+          refreshing={this.state.refreshing}
+          onRefresh={this.onRefresh.bind(this)}
+          ListHeaderComponent={this.renderHeader.bind(this)}
+        />
       </View>
     );
   }
