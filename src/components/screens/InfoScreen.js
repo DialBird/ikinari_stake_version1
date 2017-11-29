@@ -3,11 +3,12 @@ import {
   StyleSheet,
   Text,
   View,
-  ListView,
+  FlatList,
   TouchableOpacity
 } from 'react-native';
 import axios from 'axios';
 import { INFOS_URL } from '../../apiUrls';
+import sharedStyles from '../../sharedStyles';
 
 class InfoScreen extends React.Component {
   constructor() {
@@ -21,11 +22,14 @@ class InfoScreen extends React.Component {
       .catch((e)=>alert(`axios get error: ${e.message}`));
   }
 
-  renderRow(info) {
+  renderItem({item}) {
+    const { issue, title } = item;
     return (
       <TouchableOpacity style={styles.row}>
-        <Text style={styles.rowText}>{info.issue}</Text>
-        <Text style={styles.rowText}>{info.title}</Text>
+        <View>
+          <Text style={styles.rowText}>{issue}</Text>
+          <Text style={styles.rowText}>{title}</Text>
+        </View>
       </TouchableOpacity>
     );
   }
@@ -35,14 +39,13 @@ class InfoScreen extends React.Component {
   }
 
   render() {
-    const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1!==r2});
     return (
       <View>
-        <ListView
-          enableEmptySections
-          dataSource={ds.cloneWithRows(this.state.data)}
-          renderRow={this.renderRow}
-          renderSeparator={this.renderSeparator}
+        <FlatList
+          data={this.state.data}
+          keyExtractor={item => item.id}
+          renderItem={this.renderItem}
+          ItemSeparatorComponent={this.renderSeparator}
         />
       </View>
     );
