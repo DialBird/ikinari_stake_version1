@@ -3,80 +3,156 @@ import {
   StyleSheet,
   Text,
   View,
+  FlatList
 } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import axios from 'axios';
+import { ButtonGroup } from 'react-native-elements';
+import sharedStyles from '../../sharedStyles.js';
+import { getToken, getProfile } from '../../auth';
+import { USERS_URL } from '../../apiUrls';
 
-export default () => {
+const MyStatus = ({ user }) => {
+  const { name, point } = user;
   return (
-    <View>
+    <View style={styles.myRow}>
+      <Text>{name} さんの現在のポイント</Text>
+      <Text style={{fontSize:24}}>{point}</Text>
     </View>
   );
 };
-// import axios from 'axios';
-// import { Spinner } from '../common';
-// import { ButtonGroup } from 'react-native-elements';
-//   constructor() {
-//     super();
-//     this.state = { selectedIndex: 0, loading: false, num: 0, data: [] };
-//   }
-//   updateIndex(selectedIndex) {
-//     this.setState({selectedIndex, loading: true});
-//     setTimeout(() => { this.setState({loading: false}); }, 1000);
-//   }
-//   renderSpinner() {
-//     if (this.state.loading) {
-//       return <Spinner size='large' />;
-//     }
-//   }
-//   renderRow(user) {
-//     const { name, title } = user;
-//     return <Text>{name}{title}</Text>;
-//   }
-//   renderContent() {
-//     const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1!==r2});
-//     switch (this.state.selectedIndex) {
-//       case 0:
-//         axios.get('http://lala.work/api/v1/users')
-//           .then(res => this.setState({data: res.data}))
-//           .catch(err => console.log('Error occured: ' + err.response.data));
-//         break;
-//       case 1:
-//         axios.get('http://lala.work/api/v1/dogs')
-//           .then(res => this.setState({data: res.data}))
-//           .catch(err => console.log('Error occured: ' + err.response.data));
-//         break;
-//       case 2:
-//         axios.get('http://lala.work/api/v1/info_articles')
-//           .then(res => this.setState({data: res.data}))
-//           .catch(err => console.log('Error occured: ' + err.response.data));
-//         break;
-//       default:
-//         return;
-//     }
-//     return (
-//       <ListView
-//         removeClippedSubviews={false}
-//         enableEmptySections
-//         dataSource={ds.cloneWithRows(this.state.data)}
-//         renderRow={this.renderRow}
-//       />
-//     );
-//   }
-//
-//     const buttons = ['foo', 'bar', 'pee'];
-//         {#<{(| <ButtonGroup |)}>#}
-//         {#<{(|   selectedIndex={this.state.selectedIndex} |)}>#}
-//         {#<{(|   onPress={this.updateIndex.bind(this)} |)}>#}
-//         {#<{(|   buttons={buttons} |)}>#}
-//         {#<{(|   containerStyle={{height: 30}} |)}>#}
-//         {#<{(| /> |)}>#}
-//         {#<{(| <Text style={styles.welcome}> |)}>#}
-//         {#<{(|   Welcome to React Native! |)}>#}
-//         {#<{(| </Text> |)}>#}
-//         {#<{(| <Text style={styles.instructions}> |)}>#}
-//         {#<{(|   To get started, edit App.js |)}>#}
-//         {#<{(| </Text> |)}>#}
-//         {#<{(| <Text style={styles.instructions}> |)}>#}
-//         {#<{(|   {instructions} |)}>#}
-//         {#<{(| </Text> |)}>#}
-//         {#<{(| {this.renderContent()} |)}>#}
-//         {#<{(| {this.renderSpinner()} |)}>#}
+
+const ButtonGroupItem = ({ iconName, title }) => (
+  <View>
+    <Icon
+      name={iconName}
+      size={50}
+    />
+    <Text style={{textAlign: 'center'}}>{title}</Text>
+  </View>
+);
+
+class RankScreen extends React.Component {
+  constructor() {
+    super();
+    this.state = { selectedIndex: 0, user: {}, data: [] };
+  }
+
+  componentWillMount() {
+    getToken()
+      .then(getProfile)
+      .then(res => {
+        this.setState({user: res.data});
+      })
+      .catch(err => alert('情報を取得できませんでした: ' + err));
+    this.getData(this.state.selectedIndex);
+  }
+
+  getData(selectedIndex) {
+    let url = '';
+    switch (selectedIndex) {
+      case 0:
+        url = USERS_URL;
+        break;
+      case 1:
+        url = USERS_URL + '/name';
+        break;
+      case 2:
+        url = USERS_URL + '/point';
+        break;
+      default:
+        return;
+    }
+    axios.get(url)
+      .then(res => {
+        this.setState({data: res.data});
+      })
+      .catch(err => {
+        this.setState({data: []});
+        alert('Error occured: ' + err.response.data);
+      });
+  }
+
+  updateIndex(selectedIndex) {
+    this.setState({selectedIndex});
+    this.getData(selectedIndex);
+  }
+
+  renderRow(user, _, i) {
+    const { name, point } = user;
+    return (
+      <View key={i} style={styles.listViewRow}>
+        <Text style={{flex: 1, textAlign: 'center'}}>第{parseInt(i) + 1}位</Text>
+        <Text style={{flex: 1, textAlign: 'center'}}>{point}</Text>
+        <Text style={{flex: 2}}>{name}</Text>
+      </View>
+    );
+  }
+
+  renderItem({ item, index }) {
+    const { name, point } = item;
+    return (
+      <View style={styles.listViewRow}>
+        <Text style={{flex: 1, textAlign: 'center'}}>第{parseInt(index) + 1}位</Text>
+        <Text style={{flex: 1, textAlign: 'center'}}>{point}</Text>
+        <Text style={{flex: 2}}>{name}</Text>
+      </View>
+    );
+  }
+
+  renderSeparator(sectionId, rowId) {
+    return <View key={rowId} style={sharedStyles.separator}/>;
+  }
+
+  render() {
+    const component1 = () => (
+      <ButtonGroupItem iconName='crown' title='総合'/>
+    );
+    const component2 = () => (
+      <ButtonGroupItem iconName='account' title='名前順'/>
+    );
+    const component3 = () => (
+      <ButtonGroupItem iconName='magnify' title='発見順'/>
+    );
+    const buttons = [
+      { element: component1 },
+      { element: component2 },
+      { element: component3 }
+    ];
+
+    return (
+      <View>
+        <MyStatus user={this.state.user}/>
+        <ButtonGroup
+          selectedIndex={this.state.selectedIndex}
+          onPress={this.updateIndex.bind(this)}
+          buttons={buttons}
+          containerStyle={{height: 100}}
+        />
+        <FlatList
+          data={this.state.data}
+          keyExtractor={item => item.id}
+          renderItem={this.renderItem}
+          ItemSeparatorComponent={this.renderSeparator}
+        />
+      </View>
+    );
+  }
+}
+
+const styles = StyleSheet.create({
+  myRow: {
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    marginVertical: 10,
+    paddingVertical: 10
+  },
+  listViewRow: {
+    backgroundColor: '#fff',
+    height: 50,
+    flexDirection: 'row',
+    alignItems: 'center'
+  }
+});
+
+export default RankScreen;
