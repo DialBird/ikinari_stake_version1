@@ -31,7 +31,7 @@ class InfoScreen extends React.Component {
   }
 
   renderSeparator(sectionId, rowId) {
-    return <View key={rowId} style={styles.separator} />;
+    return <View key={rowId} style={sharedStyles.separator} />;
   }
 
   render() {
@@ -57,11 +57,6 @@ const styles = StyleSheet.create({
   rowText: {
     fontSize: 16,
     padding: 10
-  },
-  separator: {
-    flex: 1,
-    height: StyleSheet.hairlineWidth,
-    backgroundColor: '#8E8E8E',
   }
 });
 
