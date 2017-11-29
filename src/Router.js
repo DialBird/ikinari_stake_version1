@@ -4,6 +4,7 @@ import {
   SignInScreen,
   SignUpScreen,
   InfoScreen,
+  InfoDetailScreen,
   RankScreen,
   MypageScreen,
   MenuScreen,
@@ -14,7 +15,7 @@ import {
   OthersScreen
 } from './components/screens';
 import {
-  INFO, RANK, MYPAGE, MENU, SHOPLIST, COUPON, SHOPPING, SNS, OTHERS
+  INFO, INFO_DETAIL, RANK, MYPAGE, MENU, SHOPLIST, COUPON, SHOPPING, SNS, OTHERS
 } from './titles';
 
 const SignedOut = StackNavigator({
@@ -45,6 +46,13 @@ const SignedIn = StackNavigator({
     navigationOptions: {
       gesturesEnabled: false,
       title: INFO
+    }
+  },
+  InfoDetail: {
+    screen: InfoDetailScreen,
+    navigationOptions: {
+      gesturesEnabled: false,
+      title: INFO_DETAIL
     }
   },
   Rank: {

@@ -1,4 +1,5 @@
 export const INFO = 'お知らせ';
+export const INFO_DETAIL = 'お知らせ詳細';
 export const RANK = 'ランキング';
 export const MYPAGE = '鳥マイレージ';
 export const MENU = 'メニュー';

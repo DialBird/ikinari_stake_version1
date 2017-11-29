@@ -32,8 +32,9 @@ class InfoScreen extends React.Component {
 
   renderItem({item}) {
     const { issue, title } = item;
+    const { navigate } = this.props.navigation;
     return (
-      <TouchableOpacity style={styles.row}>
+      <TouchableOpacity style={styles.row} onPress={()=>navigate('InfoDetail', { item })}>
         <View>
           <Text style={styles.rowText}>{issue}</Text>
           <Text style={styles.rowText}>{title}</Text>
