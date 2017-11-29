@@ -2,8 +2,20 @@ import { StackNavigator } from 'react-navigation';
 import {
   HomeScreen,
   SignInScreen,
-  SignUpScreen
+  SignUpScreen,
+  InfoScreen,
+  RankScreen,
+  MypageScreen,
+  MenuScreen,
+  ShopListScreen,
+  CouponScreen,
+  ShoppingScreen,
+  SnsScreen,
+  OthersScreen
 } from './components/screens';
+import {
+  INFO, RANK, MYPAGE, MENU, SHOPLIST, COUPON, SHOPPING, SNS, OTHERS
+} from './titles';
 
 const SignedOut = StackNavigator({
   SignUp: {
@@ -26,6 +38,69 @@ const SignedIn = StackNavigator({
     navigationOptions: {
       gesturesEnabled: false,
       header: null
+    }
+  },
+  Info: {
+    screen: InfoScreen,
+    navigationOptions: {
+      gesturesEnabled: false,
+      title: INFO
+    }
+  },
+  Rank: {
+    screen: RankScreen,
+    navigationOptions: {
+      gesturesEnabled: false,
+      title: RANK
+    }
+  },
+  Mypage: {
+    screen: MypageScreen,
+    navigationOptions: {
+      gesturesEnabled: false,
+      title: MYPAGE
+    }
+  },
+  Menu: {
+    screen: MenuScreen,
+    navigationOptions: {
+      gesturesEnabled: false,
+      title: MENU
+    }
+  },
+  ShopList: {
+    screen: ShopListScreen,
+    navigationOptions: {
+      gesturesEnabled: false,
+      title: SHOPLIST
+    }
+  },
+  Coupon: {
+    screen: CouponScreen,
+    navigationOptions: {
+      gesturesEnabled: false,
+      title: COUPON
+    }
+  },
+  Shopping: {
+    screen: ShoppingScreen,
+    navigationOptions: {
+      gesturesEnabled: false,
+      title: SHOPPING
+    }
+  },
+  Sns: {
+    screen: SnsScreen,
+    navigationOptions: {
+      gesturesEnabled: false,
+      title: SNS
+    }
+  },
+  Others: {
+    screen: OthersScreen,
+    navigationOptions: {
+      gesturesEnabled: false,
+      title: OTHERS
     }
   }
 });

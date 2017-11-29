@@ -38,18 +38,50 @@ export default class HomeScreen extends React.Component {
               icon='ios-information-circle'
               onPress={()=>navigate('Info')}
             />
-            <BlockButton title={RANK} icon='ios-star'/>
-            <BlockButton title={MYPAGE} icon='ios-plane'/>
+            <BlockButton
+              title={RANK}
+              icon='ios-star'
+              onPress={()=>navigate('Rank')}
+            />
+            <BlockButton
+              title={MYPAGE}
+              icon='ios-plane'
+              onPress={()=>navigate('Mypage')}
+            />
           </View>
           <View style={styles.buttonWrapper}>
-            <BlockButton title={MENU} icon='ios-book'/>
-            <BlockButton title={SHOPLIST} icon='ios-cart'/>
-            <BlockButton title={COUPON} icon='ios-card'/>
+            <BlockButton
+              title={MENU}
+              icon='ios-book'
+              onPress={()=>navigate('Menu')}
+            />
+            <BlockButton
+              title={SHOPLIST}
+              icon='ios-home'
+              onPress={()=>navigate('ShopList')}
+            />
+            <BlockButton
+              title={COUPON}
+              icon='ios-card'
+              onPress={()=>navigate('Coupon')}
+            />
           </View>
           <View style={styles.buttonWrapper}>
-            <BlockButton title={SHOPPING} icon='ios-cart'/>
-            <BlockButton title={SNS} icon='logo-facebook'/>
-            <BlockButton title={OTHERS} icon='ios-more'/>
+            <BlockButton
+              title={SHOPPING}
+              icon='ios-cart'
+              onPress={()=>navigate('Shopping')}
+            />
+            <BlockButton
+              title={SNS}
+              icon='logo-facebook'
+              onPress={()=>navigate('Sns')}
+            />
+            <BlockButton
+              title={OTHERS}
+              icon='ios-more'
+              onPress={()=>navigate('Others')}
+            />
           </View>
         </View>
       </View>
