@@ -75,7 +75,7 @@ export default class HomeScreen extends React.Component {
             <BlockButton
               title={MYPAGE}
               icon='ios-plane'
-              onPress={()=>navigate('Mypage')}
+              onPress={()=>navigate('Mypage', {user})}
             />
           </View>
           <View style={styles.buttonWrapper}>
