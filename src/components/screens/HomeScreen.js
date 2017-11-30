@@ -11,6 +11,17 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import {
   INFO, RANK, MYPAGE, MENU, SHOPLIST, COUPON, SHOPPING, SNS, OTHERS
 } from '../../titles';
+import { getToken, getProfile } from '../../auth';
+
+const MyStatus = ({ user }) => {
+  const { name, point } = user;
+  return (
+    <View style={styles.myStatusContainer}>
+      <Text>{name} さんの現在のポイント</Text>
+      <Text style={{fontSize:24}}>{point}</Text>
+    </View>
+  );
+};
 
 const BlockButton = ({ icon, title, onPress }) => (
   <TouchableOpacity style={styles.blockButton} onPress={onPress}>
@@ -20,8 +31,23 @@ const BlockButton = ({ icon, title, onPress }) => (
 );
 
 export default class HomeScreen extends React.Component {
+  constructor() {
+    super();
+    this.state = { user: {} };
+  }
+
+  componentWillMount() {
+    getToken()
+      .then(getProfile)
+      .then(res => {
+        this.setState({user: res.data});
+      })
+      .catch(err => alert('情報を取得できませんでした: ' + err));
+  }
+
   render() {
     const { navigate } = this.props.navigation;
+    const { user } = this.state;
     return (
       <View style={styles.container}>
         <View style={{flex: 2}}>
@@ -30,6 +56,9 @@ export default class HomeScreen extends React.Component {
             source={require('../../images/hiyo.jpg')}
             resizeMode={'cover'}
           />
+        </View>
+        <View>
+          <MyStatus user={user}/>
         </View>
         <View style={{flex: 1}}>
           <View style={styles.buttonWrapper}>
@@ -110,5 +139,12 @@ const styles = StyleSheet.create({
     flex: 1,
     width: width,
     zIndex: 999
+  },
+  myStatusContainer: {
+    backgroundColor: '#fff',
+    alignItems: 'center',
+    paddingVertical: 10,
+    borderWidth: 5,
+    borderColor: '#d771ff'
   }
 });
