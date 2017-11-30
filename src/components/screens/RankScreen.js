@@ -14,15 +14,15 @@ import { USERS_URL } from '../../apiUrls';
 const MyStatus = ({ user }) => {
   const { name, point } = user;
   return (
-    <View style={styles.myRow}>
-      <Text>{name} さんの現在のポイント</Text>
-      <Text style={{fontSize:24}}>{point}</Text>
+    <View style={styles.myStatusContainer}>
+      <Text style={{fontSize: 16, lineHeight: 24}}>{name} さんの現在のマイレージ</Text>
+      <Text style={{fontSize: 24, color: '#f00'}}>{point}</Text>
     </View>
   );
 };
 
 const ButtonGroupItem = ({ iconName, title }) => (
-  <View>
+  <View style={{alignItems: 'center'}}>
     <Icon
       name={iconName}
       size={50}
@@ -76,15 +76,50 @@ class RankScreen extends React.Component {
     const { name, point } = item;
     return (
       <View style={styles.listViewRow}>
-        <Text style={{flex: 1, textAlign: 'center'}}>第{parseInt(index) + 1}位</Text>
-        <Text style={{flex: 1, textAlign: 'center'}}>{point}</Text>
+        <Text style={{flex: 1}}>第{parseInt(index) + 1}位</Text>
         <Text style={{flex: 2}}>{name}</Text>
+        <Text style={{flex: 1}}>{point}</Text>
       </View>
     );
   }
 
   renderSeparator(sectionId, rowId) {
     return <View key={rowId} style={sharedStyles.separator}/>;
+  }
+
+  renderHeader() {
+    const Component1 = () => (
+      <ButtonGroupItem iconName='crown' title='総合'/>
+    );
+    const Component2 = () => (
+      <ButtonGroupItem iconName='account' title='名前順'/>
+    );
+    const Component3 = () => (
+      <ButtonGroupItem iconName='crown' title='マイレージ順'/>
+    );
+    const buttons = [
+      { element: Component1 },
+      { element: Component2 },
+      { element: Component3 }
+    ];
+    return (
+      <View>
+        <MyStatus user={this.user}/>
+        <View style={{paddingVertical: 5}}>
+          <ButtonGroup
+            selectedIndex={this.state.selectedIndex}
+            onPress={this.updateIndex.bind(this)}
+            buttons={buttons}
+            containerStyle={styles.buttonGroup}
+          />
+        </View>
+        <View style={styles.listHeader}>
+          <Text style={{flex: 1, color: '#fff'}}>順位</Text>
+          <Text style={{flex: 2, color: '#fff'}}>名前</Text>
+          <Text style={{flex: 1, color: '#fff'}}>マイレージ</Text>
+        </View>
+      </View>
+    );
   }
 
   onRefresh() {
@@ -94,33 +129,9 @@ class RankScreen extends React.Component {
   }
 
   render() {
-    const component1 = () => (
-      <ButtonGroupItem iconName='crown' title='総合'/>
-    );
-    const component2 = () => (
-      <ButtonGroupItem iconName='account' title='名前順'/>
-    );
-    const component3 = () => (
-      <ButtonGroupItem iconName='magnify' title='発見順'/>
-    );
-    const buttons = [
-      { element: component1 },
-      { element: component2 },
-      { element: component3 }
-    ];
-
     return (
-      <View style={{flex: 1}}>
-        <View style={{flex: 1}}>
-          <MyStatus user={this.user}/>
-          <ButtonGroup
-            selectedIndex={this.state.selectedIndex}
-            onPress={this.updateIndex.bind(this)}
-            buttons={buttons}
-            containerStyle={{height: 100}}
-          />
-        </View>
-        <View style={{flex: 2}}>
+      <View style={styles.container}>
+        <View>
           <FlatList
             data={this.state.data}
             keyExtractor={item => item.id}
@@ -128,6 +139,7 @@ class RankScreen extends React.Component {
             ItemSeparatorComponent={this.renderSeparator}
             refreshing={this.state.refreshing}
             onRefresh={this.onRefresh.bind(this)}
+            ListHeaderComponent={this.renderHeader.bind(this)}
           />
         </View>
       </View>
@@ -136,13 +148,29 @@ class RankScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  myRow: {
-    backgroundColor: '#fff',
+  container: {
+    flex: 1,
+    backgroundColor: '#fff'
+  },
+  myStatusContainer: {
     alignItems: 'center',
-    marginVertical: 10,
-    paddingVertical: 10
+    paddingVertical: 10,
+    borderWidth: 5,
+    borderColor: '#d771ff'
+  },
+  buttonGroup: {
+    height: 100,
+    marginVertical: 30
+  },
+  listHeader: {
+    paddingHorizontal: 20,
+    backgroundColor: '#333',
+    height: 30,
+    flexDirection: 'row',
+    alignItems: 'center'
   },
   listViewRow: {
+    paddingHorizontal: 20,
     backgroundColor: '#fff',
     height: 50,
     flexDirection: 'row',
