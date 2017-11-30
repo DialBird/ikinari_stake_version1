@@ -70,7 +70,7 @@ export default class HomeScreen extends React.Component {
             <BlockButton
               title={RANK}
               icon='ios-star'
-              onPress={()=>navigate('Rank')}
+              onPress={()=>navigate('Rank', {user})}
             />
             <BlockButton
               title={MYPAGE}

@@ -9,7 +9,6 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import axios from 'axios';
 import { ButtonGroup } from 'react-native-elements';
 import sharedStyles from '../../sharedStyles.js';
-import { getToken, getProfile } from '../../auth';
 import { USERS_URL } from '../../apiUrls';
 
 const MyStatus = ({ user }) => {
@@ -33,18 +32,13 @@ const ButtonGroupItem = ({ iconName, title }) => (
 );
 
 class RankScreen extends React.Component {
-  constructor() {
-    super();
-    this.state = { selectedIndex: 0, user: {}, data: [], refreshing: false };
+  constructor(props) {
+    super(props);
+    this.user = props.navigation.state.params.user;
+    this.state = { selectedIndex: 0, data: [], refreshing: false };
   }
 
   componentWillMount() {
-    getToken()
-      .then(getProfile)
-      .then(res => {
-        this.setState({user: res.data});
-      })
-      .catch(err => alert('情報を取得できませんでした: ' + err));
     this.getUserData(this.state.selectedIndex);
   }
 
@@ -118,7 +112,7 @@ class RankScreen extends React.Component {
     return (
       <View style={{flex: 1}}>
         <View style={{flex: 1}}>
-          <MyStatus user={this.state.user}/>
+          <MyStatus user={this.user}/>
           <ButtonGroup
             selectedIndex={this.state.selectedIndex}
             onPress={this.updateIndex.bind(this)}
