@@ -3,6 +3,7 @@ import {
   StyleSheet,
   Text,
   View,
+  ScrollView
 } from 'react-native';
 
 class InfoDetailScreen extends React.Component {
@@ -15,26 +16,30 @@ class InfoDetailScreen extends React.Component {
   render() {
     const { issue, title } = this.state;
     return (
-      <View style={styles.container}>
+      <ScrollView style={styles.container}>
         <View style={styles.title}>
           <Text style={{fontSize: 16}}>{issue}</Text>
           <Text style={{fontSize: 20, fontWeight: 'bold', marginTop: 10}}>{title}</Text>
         </View>
         <View>
+          <Text style={styles.contentText}>{this.state.content}</Text>
         </View>
-        <Text>{this.state.title}</Text>
-      </View>
+      </ScrollView>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: '#fff',
+    padding: 20
   },
   title: {
-    padding: 20
+    paddingBottom: 20
+  },
+  contentText: {
+    fontSize: 16,
+    lineHeight: 24
   }
 });
 
