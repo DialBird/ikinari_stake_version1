@@ -14,6 +14,7 @@ import {
 import { getToken, getProfile } from '../../auth';
 
 const MyStatus = ({ user }) => {
+  if (!user) user = { name: '', point: 0 };
   const { name, point } = user;
   return (
     <View style={styles.myStatusContainer}>
