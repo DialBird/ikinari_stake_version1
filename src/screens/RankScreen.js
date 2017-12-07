@@ -9,7 +9,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import axios from 'axios';
 import { ButtonGroup } from 'react-native-elements';
 import sharedStyles from '../sharedStyles.js';
-import { USERS_URL } from '../apiUrls';
+import { USERS_URL } from '../urls';
 
 const MyStatus = ({ user }) => {
   const { name, point } = user;

@@ -1,6 +1,6 @@
 import { AsyncStorage } from 'react-native';
 import axios from 'axios';
-import { LOGIN_URL, USERS_URL } from './apiUrls';
+import { LOGIN_URL, USERS_URL } from './urls';
 
 export const USER_KEY = 'auth-demo-key';
 
