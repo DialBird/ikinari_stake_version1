@@ -10,8 +10,8 @@ import {
 import Icon from 'react-native-vector-icons/Ionicons';
 import {
   INFO, RANK, MYPAGE, MENU, SHOPLIST, COUPON, SHOPPING, SNS, OTHERS
-} from '../../titles';
-import { getToken, getProfile } from '../../auth';
+} from '../titles';
+import { getToken, getProfile } from '../auth';
 
 const MyStatus = ({ user }) => {
   if (!user) user = { name: '', point: 0 };
@@ -54,7 +54,7 @@ export default class HomeScreen extends React.Component {
         <View style={{flex: 2}}>
           <Image
             style={styles.image}
-            source={require('../../images/hiyo.jpg')}
+            source={require('../images/hiyo.jpg')}
             resizeMode={'cover'}
           />
         </View>

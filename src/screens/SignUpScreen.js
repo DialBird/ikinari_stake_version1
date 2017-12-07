@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Text, ScrollView } from 'react-native';
 import { Card, Button, FormLabel, FormInput } from 'react-native-elements';
-import { onSignUp, storeToken } from '../../auth';
+import { onSignUp, storeToken } from '../auth';
 
 class SignUpScreen extends React.Component {
   constructor() {

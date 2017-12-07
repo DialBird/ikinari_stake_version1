@@ -1,8 +1,8 @@
 import React from 'react';
 import { View, Text } from 'react-native';
 import { Card, Button, FormLabel, FormInput } from 'react-native-elements';
-import { onSignIn, storeToken } from '../../auth';
-import sharedStyles from '../../sharedStyles.js';
+import { onSignIn, storeToken } from '../auth';
+import sharedStyles from '../sharedStyles.js';
 
 export default class SignInScreen extends React.Component {
   constructor() {

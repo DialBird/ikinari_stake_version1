@@ -13,7 +13,7 @@ export default ({ navigation }) => {
       <View style={{flex: 1}}>
         <Image
           style={styles.image}
-          source={require('../../images/cat_with_bird.jpg')}
+          source={require('../images/cat_with_bird.jpg')}
           resizeMode={'cover'}
         />
       </View>

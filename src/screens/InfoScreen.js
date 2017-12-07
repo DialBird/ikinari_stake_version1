@@ -7,8 +7,8 @@ import {
   TouchableOpacity
 } from 'react-native';
 import axios from 'axios';
-import { INFOS_URL } from '../../apiUrls';
-import sharedStyles from '../../sharedStyles';
+import { INFOS_URL } from '../apiUrls';
+import sharedStyles from '../sharedStyles';
 import { SearchBar } from 'react-native-elements';
 
 class InfoScreen extends React.Component {

@@ -13,7 +13,7 @@ import {
   ShoppingScreen,
   SnsScreen,
   OthersScreen
-} from './components/screens';
+} from './screens';
 import {
   INFO, INFO_DETAIL, RANK, MYPAGE, MENU, SHOPLIST, COUPON, SHOPPING, SNS, OTHERS
 } from './titles';

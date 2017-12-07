@@ -1,7 +1,7 @@
 import React from 'react';
 import { Alert, View } from 'react-native';
 import { List, ListItem } from 'react-native-elements';
-import { onSignOut } from '../../auth';
+import { onSignOut } from '../auth';
 
 class OthersScreen extends React.Component {
   onPress() {
