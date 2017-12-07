@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import { Card, Button, FormLabel, FormInput } from 'react-native-elements';
 import { onSignIn, storeToken } from '../auth';
-import sharedStyles from '../sharedStyles.js';
+import commonStyles from '../styles.js';
 
 export default class SignInScreen extends React.Component {
   constructor() {
@@ -29,7 +29,7 @@ export default class SignInScreen extends React.Component {
             value={password}
             onChangeText={(password)=>this.setState({password})}
           />
-          <Text style={sharedStyles.errText}>{this.state.error}</Text>
+          <Text style={commonStyles.errText}>{this.state.error}</Text>
 
           <Button
             buttonStyle={{ marginTop: 20 }}

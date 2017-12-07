@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import axios from 'axios';
 import { INFOS_URL } from '../urls';
-import sharedStyles from '../sharedStyles';
+import commonStyles from '../styles';
 import { SearchBar } from 'react-native-elements';
 
 class InfoScreen extends React.Component {
@@ -44,7 +44,7 @@ class InfoScreen extends React.Component {
   }
 
   renderSeparator(sectionId, rowId) {
-    return <View key={rowId} style={sharedStyles.separator} />;
+    return <View key={rowId} style={commonStyles.separator} />;
   }
 
   renderHeader() {
