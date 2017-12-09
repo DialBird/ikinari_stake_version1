@@ -1,57 +1,64 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { StyleSheet, View } from 'react-native';
+import { connect } from 'react-redux';
 import { Card, Button, FormLabel, FormInput } from 'react-native-elements';
-import { onSignIn, storeToken } from '../auth';
-import commonStyles from '../styles.js';
+import { Errors } from '../components';
+import { emailChanged, passwordChanged, loginUser } from '../actions';
 
-export default class SignInScreen extends React.Component {
-  constructor() {
-    super();
-    this.state = { email: '', password: '', error: '' };
+class SignInScreen extends React.Component {
+  onPushSignIn() {
+    const { email, password, navigation } = this.props;
+    this.props.loginUser({ email, password, navigation });
   }
 
   render() {
-    const { navigate } = this.props.navigation;
-    const { email, password } = this.state;
+    const {
+      email, password, signinErrors, emailChanged, passwordChanged
+    } = this.props;
+
     return (
-      <View style={{ paddingVertical: 20 }}>
+      <View style={styles.container}>
         <Card>
           <FormLabel>Email</FormLabel>
           <FormInput
-            placeholder='Email address...'
+            placeholder='Email'
             value={email}
-            onChangeText={(email)=>this.setState({email})}
+            onChangeText={emailChanged}
           />
+
           <FormLabel>Password</FormLabel>
           <FormInput
             secureTextEntry
-            placeholder='Password...'
+            placeholder='Password'
             value={password}
-            onChangeText={(password)=>this.setState({password})}
+            onChangeText={passwordChanged}
           />
-          <Text style={commonStyles.errText}>{this.state.error}</Text>
+
+          <Errors errors={signinErrors}/>
 
           <Button
-            buttonStyle={{ marginTop: 20 }}
+            buttonStyle={{marginTop: 20}}
             backgroundColor='#03A9F4'
             title='SIGN IN'
-            onPress={() => {
-              onSignIn({session: { email, password }})
-                .then((res) => {
-                  const accessToken = res.data;
-                  console.log('accessToken is : ' + accessToken);
-                  storeToken(accessToken)
-                    .then(() => navigate('SignedIn'))
-                    .catch((err) => alert('setItem error: ' + err));
-                })
-                .catch((err) => {
-                  console.log('loginerr: ' + err);
-                  this.setState({error: err.response.data});
-                });
-            }}
+            onPress={this.onPushSignIn.bind(this)}
           />
         </Card>
       </View>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1
+  }
+});
+
+const mapStateToProps = ({auth}) => {
+  const { email, password, signinErrors, loading } = auth;
+  return { email, password, signinErrors, loading };
+};
+
+export default connect(mapStateToProps, {
+  emailChanged, passwordChanged, loginUser
+})(SignInScreen);

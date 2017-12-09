@@ -7,11 +7,13 @@ import {
   TouchableOpacity,
   Dimensions
 } from 'react-native';
+import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {
   INFO, RANK, MYPAGE, MENU, SHOPLIST, COUPON, SHOPPING, SNS, OTHERS
 } from '../titles';
 import { getToken, getProfile } from '../auth';
+import { setUser } from '../actions';
 
 const MyStatus = ({ user }) => {
   if (!user) user = { name: '', point: 0 };
@@ -31,24 +33,20 @@ const BlockButton = ({ icon, title, onPress }) => (
   </TouchableOpacity>
 );
 
-export default class HomeScreen extends React.Component {
-  constructor() {
-    super();
-    this.state = { user: {} };
-  }
-
+class HomeScreen extends React.Component {
   componentWillMount() {
+    const { navigation, setUser } = this.props;
     getToken()
       .then(getProfile)
-      .then(res => {
-        this.setState({user: res.data});
-      })
-      .catch(err => alert('情報を取得できませんでした: ' + err));
+      .then(res => setUser(res.data))
+      .catch(err => {
+        alert('ログイン情報を取得できませんでした: ' + err);
+        navigation.navigate('SignedOut');
+      });
   }
-
   render() {
+    const { user } = this.props;
     const { navigate } = this.props.navigation;
-    const { user } = this.state;
     return (
       <View style={styles.container}>
         <View style={{flex: 2}}>
@@ -149,3 +147,10 @@ const styles = StyleSheet.create({
     borderColor: '#d771ff'
   }
 });
+
+const mapStateToProps = ({home}) => {
+  const { user } = home;
+  return { user };
+};
+
+export default connect(mapStateToProps, { setUser })(HomeScreen);

@@ -1,45 +1,39 @@
 import { AsyncStorage } from 'react-native';
 import axios from 'axios';
-import { LOGIN_URL, USERS_URL } from './urls';
+import { USERS_URL, LOGIN_URL } from './urls';
 
-export const USER_KEY = 'auth-demo-key';
-
-export const onSignIn = (user) => {
-  return axios.post(LOGIN_URL, user);
-};
-
-export const onSignUp = (user) => {
-  return axios.post(USERS_URL, user);
-};
-
-export const onSignOut = () => AsyncStorage.removeItem(USER_KEY);
-
-export const storeToken = (accessToken) => {
-  return new Promise((resolve, reject) => {
-    AsyncStorage.setItem(USER_KEY, accessToken)
-      .then(() => resolve())
-      .catch((err) => reject(err));
-  });
-};
-
-export const getProfile = (accessToken) => {
-  return axios.get(USERS_URL + '/' + accessToken);
-};
-
-export const getToken = () => {
-  return AsyncStorage.getItem(USER_KEY);
-};
+const USER_KEY = 'user_key';
 
 export const isSignedIn = () => {
   return new Promise((resolve, reject) => {
     AsyncStorage.getItem(USER_KEY)
       .then(res => {
-        if (res !== null) {
-          resolve(true);
-        } else {
-          resolve(false);
-        }
+        // まだログインしていない場合
+        if (res === null) return resolve(false);
+
+        // ログインした後、トークンが有効なままかどうか
+        getProfile(res)
+          .then(res => {
+            if (res.data !== null) return resolve(true);
+
+            alert('トークンの期限が切れたので、ログインしなおしてください');
+            onSignOut();
+            resolve(false);
+          })
+          .catch(err => reject(err));
       })
       .catch(err => reject(err));
   });
 };
+
+export const onSignUp = (user_params) => axios.post(USERS_URL, user_params);
+
+export const onSignIn = (session_params) => axios.post(LOGIN_URL, session_params);
+
+export const onSignOut = () => AsyncStorage.removeItem(USER_KEY);
+
+export const storeToken = (accessToken) => AsyncStorage.setItem(USER_KEY, accessToken);
+
+export const getToken = () => AsyncStorage.getItem(USER_KEY);
+
+export const getProfile = (accessToken) => axios.get(USERS_URL + '/' + accessToken);

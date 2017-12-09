@@ -1,127 +1,125 @@
 import React from 'react';
-import { StyleSheet, View, Text, ScrollView } from 'react-native';
+import { View, ScrollView } from 'react-native';
+import { connect } from 'react-redux';
 import { Card, Button, FormLabel, FormInput } from 'react-native-elements';
-import { onSignUp, storeToken } from '../auth';
+import { Errors, Spinner } from '../components';
+import {
+  nameChanged,
+  nicknameChanged,
+  newEmailChanged,
+  newPasswordChanged,
+  newPasswordConfirmChanged,
+  signupUser
+} from '../actions';
 
 class SignUpScreen extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      name: '',
-      nickname: '',
-      email: '',
-      password: '',
-      password_confirmation: '',
-      errors: [],
-      showProgress: false
+  onPushSignUp() {
+    const {
+      name, nickname, newEmail, newPassword, newPasswordConfirm
+    } = this.props;
+    const user_params = {
+      user: {
+        name, nickname, email: newEmail, password: newPassword,
+        password_confirmation: newPasswordConfirm
+      }
     };
+    this.props.signupUser(user_params, this.props.navigation);
   }
 
-  onPushSignUp() {
-    const { name, nickname, email, password, password_confirmation } = this.state;
-    const user_params = {
-      user: { name, nickname, email, password, password_confirmation }
-    };
-    const { navigate } = this.props.navigation;
+  renderButton() {
+    if (this.props.loading) {
+      return <Spinner size='large'/>;
+    }
 
-    this.setState({showProgress: true});
+    return (
+      <View>
+        <Button
+          buttonStyle={{marginTop: 20}}
+          backgroundColor='#03A9F4'
+          title='SIGN UP'
+          onPress={this.onPushSignUp.bind(this)}
+        />
 
-    onSignUp(user_params)
-      .then(res => {
-        let accessToken = res.data;
-        storeToken(accessToken)
-          .then(() => navigate('SignedIn'))
-          .catch((err) => alert('setItem error: ' + err));
-      })
-      .catch(errors => {
-        const formErrors = errors.response.data;
-        let errorsArray = [];
-        for(var key in formErrors) {
-          if(formErrors[key].length > 1) {
-            formErrors[key].map(error => errorsArray.push(`${key} ${error}`));
-          } else {
-            errorsArray.push(`${key} ${formErrors[key]}`);
-          }
-        }
-        console.log(errorsArray);
-        this.setState({errors: errorsArray});
-        this.setState({showProgress: false});
-      });
+        <Button
+          buttonStyle={{marginTop: 20}}
+          backgroundColor='transparent'
+          textStyle={{ color: '#bcbec1' }}
+          title='SIGN IN'
+          onPress={()=>this.props.navigation.navigate('SignIn')}
+        />
+      </View>
+    );
   }
 
   render() {
-    const { navigate } = this.props.navigation;
-    const { name, nickname, email, password, password_confirmation } = this.state;
+    const {
+      name, nickname, newEmail, newPassword, newPasswordConfirm, signupErrors,
+      nameChanged, nicknameChanged, newEmailChanged, newPasswordChanged,
+      newPasswordConfirmChanged
+    } = this.props;
     return (
       <ScrollView>
         <Card>
           <FormLabel>Name</FormLabel>
           <FormInput
-            placeholder='Name...'
+            placeholder='Name'
             value={name}
-            onChangeText={(name)=>this.setState({name})}
+            onChangeText={nameChanged}
           />
+
           <FormLabel>NickName</FormLabel>
           <FormInput
-            placeholder='NickName...'
+            placeholder='NickName'
             value={nickname}
-            onChangeText={(nickname)=>this.setState({nickname})}
+            onChangeText={nicknameChanged}
           />
+
           <FormLabel>Email</FormLabel>
           <FormInput
-            placeholder='Email address...'
-            value={email}
-            onChangeText={(email)=>this.setState({email})}
+            placeholder='Email'
+            value={newEmail}
+            onChangeText={newEmailChanged}
           />
+
           <FormLabel>Password</FormLabel>
           <FormInput
             secureTextEntry
-            placeholder='Password...'
-            value={password}
-            onChangeText={(password)=>this.setState({password})}
+            placeholder='Password'
+            value={newPassword}
+            onChangeText={newPasswordChanged}
           />
-          <FormLabel>Confirm Password</FormLabel>
+
+          <FormLabel>Password Confirm</FormLabel>
           <FormInput
             secureTextEntry
-            placeholder='Confirm Password...'
-            value={password_confirmation}
-            onChangeText={(password_confirmation)=>this.setState({password_confirmation})}
+            placeholder='Password Confirm'
+            value={newPasswordConfirm}
+            onChangeText={newPasswordConfirmChanged}
           />
-          <Errors errors={this.state.errors}/>
 
-          <Button
-            buttonStyle={{ marginTop: 20 }}
-            backgroundColor='#03A9F4'
-            title='SIGN UP'
-            onPress={this.onPushSignUp.bind(this)}
-          />
-          <Button
-            buttonStyle={{ marginTop: 20 }}
-            backgroundColor='transparent'
-            textStyle={{ color: '#bcbec1' }}
-            title='Sign In'
-            onPress={() => navigate('SignIn')}
-          />
+          <Errors errors={signupErrors}/>
+
+          {this.renderButton()}
         </Card>
       </ScrollView>
     );
   }
 }
 
-const Errors = (props) => {
-  return (
-    <View>
-      {props.errors.map((error, i) => <Text key={i} style={styles.error}> {error} </Text>)}
-    </View>
-  );
+const mapStateToProps = ({auth}) => {
+  const {
+    name, nickname, newEmail, newPassword, newPasswordConfirm, signupErrors, loading
+  } = auth;
+  return {
+    name, nickname, newEmail, newPassword, newPasswordConfirm, signupErrors, loading
+  };
 };
 
-const styles = StyleSheet.create({
-  error: {
-    color: 'red',
-    paddingTop: 10
-  }
-});
-
-
-export default SignUpScreen;
+export default connect(mapStateToProps, {
+  nameChanged,
+  nicknameChanged,
+  newEmailChanged,
+  newPasswordChanged,
+  newPasswordConfirmChanged,
+  signupUser
+})(SignUpScreen);
