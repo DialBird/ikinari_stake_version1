@@ -111,6 +111,8 @@ const SignedIn = StackNavigator({
       title: OTHERS
     }
   }
+}, {
+  mode: 'modal',
 });
 
 export const createRootNavigator = (signedIn = false) => {
@@ -129,7 +131,6 @@ export const createRootNavigator = (signedIn = false) => {
     }
   }, {
     headerMode: 'none',
-    mode: 'modal',
     initialRouteName: signedIn ? 'SignedIn' : 'SignedOut'
   });
 };
