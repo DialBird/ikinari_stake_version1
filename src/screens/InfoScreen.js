@@ -6,28 +6,14 @@ import {
   FlatList,
   TouchableOpacity
 } from 'react-native';
-import axios from 'axios';
-import { INFOS_URL } from '../urls';
-import commonStyles from '../styles';
+import { connect } from 'react-redux';
 import { SearchBar } from 'react-native-elements';
+import commonStyles from '../styles';
+import { initializeInfo, searchTextChanged } from '../actions';
 
 class InfoScreen extends React.Component {
-  constructor() {
-    super();
-    this.state = { initialData: [], data: [], refreshing: false, searchText: '' };
-  }
-
-  getInfoData() {
-    axios.get(INFOS_URL)
-      .then((res)=>this.setState({ initialData: res.data, data: res.data, refreshing: false }))
-      .catch((e)=>{
-        this.setState({ data: [], refreshing: false });
-        alert(`axios get error: ${e.message}`);
-      });
-  }
-
   componentWillMount() {
-    this.getInfoData();
+    this.props.initializeInfo();
   }
 
   renderItem({item}) {
@@ -47,44 +33,36 @@ class InfoScreen extends React.Component {
     return <View key={rowId} style={commonStyles.separator} />;
   }
 
+  // FIXME: Headerをレンダーしようとするとエラーが出る
+  // Remote debugger is in a background tab which may cause apps to perform slowly. Fix this by foregrounding the tab (or opening it in a separate window).
   renderHeader() {
     return (
       <SearchBar
         placeholder='Type here...'
-        onChangeText={this.filterInfo.bind(this)}
-        value={this.state.searchText}
+        onChangeText={this.props.searchTextChanged}
+        value={this.props.searchText}
         autoFocus={true}
         lightTheme round
       />
     );
   }
 
-  filterInfo(text) {
-    text = text.toLowerCase();
-    const filteredResult = this.state.initialData.filter(item => {
-      return item.title.toLowerCase().match(text);
-    });
-    this.setState({data: filteredResult, searchText: text});
-  }
-
   onRefresh() {
-    this.setState({refreshing: true}, () => {
-      this.getInfoData();
-    });
+    this.props.initializeInfo();
   }
 
   render() {
     return (
       <View>
         <FlatList
-          data={this.state.data}
+          data={this.props.filterd_info}
           keyExtractor={item => item.id}
           renderItem={this.renderItem.bind(this)}
           ItemSeparatorComponent={this.renderSeparator}
-          refreshing={this.state.refreshing}
+          refreshing={this.props.loading}
           onRefresh={this.onRefresh.bind(this)}
-          ListHeaderComponent={this.renderHeader.bind(this)}
         />
+        {/* ListHeaderComponent={this.renderHeader.bind(this)} */}
       </View>
     );
   }
@@ -101,4 +79,9 @@ const styles = StyleSheet.create({
   }
 });
 
-export default InfoScreen;
+const mapStateToProps = ({info}) => {
+  const { initial_info, filterd_info, loading, searchText } = info;
+  return { initial_info, filterd_info, loading, searchText };
+};
+
+export default connect(mapStateToProps, { initializeInfo, searchTextChanged })(InfoScreen);

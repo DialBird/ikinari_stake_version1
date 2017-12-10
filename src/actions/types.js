@@ -13,3 +13,8 @@ export const SIGNIN_USER_SUCCESS = 'signin_user_success';
 export const SIGNIN_USER_FAIL = 'signin_user_fail';
 
 export const SET_USER = 'set_user';
+
+export const REQUEST_INFO = 'request_info';
+export const REQUEST_INFO_SUCCESS = 'request_info_success';
+export const REQUEST_INFO_FAIL = 'request_info_fail';
+export const SEARCH_TEXT_CHANGED = 'search_text_changed';
