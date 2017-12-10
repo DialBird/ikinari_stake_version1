@@ -149,10 +149,10 @@ class RankScreen extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: '#fff'
+    flex: 1
   },
   myStatusContainer: {
+    backgroundColor: '#fff',
     alignItems: 'center',
     paddingVertical: 10,
     borderWidth: 5,
