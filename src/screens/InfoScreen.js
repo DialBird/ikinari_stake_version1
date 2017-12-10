@@ -8,7 +8,7 @@ import {
 } from 'react-native';
 import { connect } from 'react-redux';
 import { SearchBar } from 'react-native-elements';
-import commonStyles from '../styles';
+import { Separator } from '../components';
 import { initializeInfo, searchTextChanged } from '../actions';
 
 class InfoScreen extends React.Component {
@@ -29,8 +29,8 @@ class InfoScreen extends React.Component {
     );
   }
 
-  renderSeparator(sectionId, rowId) {
-    return <View key={rowId} style={commonStyles.separator} />;
+  renderSeparator(_, rowId) {
+    return <Separator rowId={rowId}/>;
   }
 
   // FIXME: Headerをレンダーしようとするとエラーが出る

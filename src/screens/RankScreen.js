@@ -8,8 +8,8 @@ import {
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import axios from 'axios';
 import { ButtonGroup } from 'react-native-elements';
-import commonStyles from '../styles';
 import { USERS_URL } from '../urls';
+import { Separator } from '../components';
 
 const MyStatus = ({ user }) => {
   const { name, point } = user;
@@ -83,8 +83,8 @@ class RankScreen extends React.Component {
     );
   }
 
-  renderSeparator(sectionId, rowId) {
-    return <View key={rowId} style={commonStyles.separator}/>;
+  renderSeparator(_, rowId) {
+    return <Separator rowId={rowId}/>;
   }
 
   renderHeader() {
