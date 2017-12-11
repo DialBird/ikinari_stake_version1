@@ -44,6 +44,7 @@ class HomeScreen extends React.Component {
         navigation.navigate('SignedOut');
       });
   }
+
   render() {
     const { user } = this.props;
     const { navigate } = this.props.navigation;
@@ -52,7 +53,7 @@ class HomeScreen extends React.Component {
         <View style={{flex: 2}}>
           <Image
             style={styles.image}
-            source={require('../images/hiyo.jpg')}
+            source={require('../images/birds.gif')}
             resizeMode={'cover'}
           />
         </View>
@@ -121,6 +122,7 @@ const { width } = Dimensions.get('window');
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    marginTop: 20
   },
   buttonWrapper: {
     flexDirection: 'row',
