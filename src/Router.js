@@ -8,14 +8,14 @@ import {
   RankScreen,
   MypageScreen,
   MenuScreen,
-  ShopListScreen,
+  BirdSpotScreen,
   CouponScreen,
   ShoppingScreen,
   SnsScreen,
   OthersScreen
 } from './screens';
 import {
-  INFO, INFO_DETAIL, RANK, MYPAGE, MENU, SHOPLIST, COUPON, SHOPPING, SNS, OTHERS
+  INFO, INFO_DETAIL, RANK, MYPAGE, MENU, BIRDSPOT, COUPON, SHOPPING, SNS, OTHERS
 } from './titles';
 
 const SignedOut = StackNavigator({
@@ -76,11 +76,11 @@ const SignedIn = StackNavigator({
       title: MENU
     }
   },
-  ShopList: {
-    screen: ShopListScreen,
+  BirdSpot: {
+    screen: BirdSpotScreen,
     navigationOptions: {
       gesturesEnabled: false,
-      title: SHOPLIST
+      title: BIRDSPOT
     }
   },
   Coupon: {

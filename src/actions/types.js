@@ -18,3 +18,7 @@ export const REQUEST_INFO = 'request_info';
 export const REQUEST_INFO_SUCCESS = 'request_info_success';
 export const REQUEST_INFO_FAIL = 'request_info_fail';
 export const SEARCH_TEXT_CHANGED = 'search_text_changed';
+
+export const REQUEST_BIRD_SPOT = 'request_bird_spot';
+export const REQUEST_BIRD_SPOT_SUCCESS = 'request_bird_spot_success';
+export const REQUEST_BIRD_SPOT_FAIL = 'request_bird_spot_fail';
