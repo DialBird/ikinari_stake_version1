@@ -5,28 +5,49 @@ import {
   View,
   Image
 } from 'react-native';
+import Barcode from 'react-native-barcode-builder';
 
-export default ({ navigation }) => {
-  const { user } = navigation.state.params;
-  return (
-    <View style={styles.container}>
-      <View style={{flex: 1}}>
-        <Image
-          style={styles.image}
-          source={require('../images/cat_with_bird.jpg')}
-          resizeMode={'cover'}
+class MypageScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.user = props.navigation.state.params.user;
+  }
+
+  splitCode() {
+    let codeArr = [];
+    for (let i=0;i<16;i+=4) {
+      codeArr.push(this.user.code.slice(i, i+4));
+    }
+    return codeArr.join(' ');
+  }
+
+  render() {
+    return (
+      <View style={styles.container}>
+        <View style={{flex: 1}}>
+          <Image
+            style={styles.image}
+            source={require('../images/cat_with_bird.jpg')}
+            resizeMode={'cover'}
+          />
+        </View>
+        <Barcode
+          value={this.splitCode(this.splitCode)}
+          format="CODE128"
+          height={50}
+          width={1.5}
         />
+        <View style={{flex: 1, alignItems: 'center'}}>
+          <Text style={styles.title}>現在のあなたの鳥マイレージは</Text>
+          <Text style={styles.text}>
+            <Text style={styles.point}>{this.user.point}</Text>
+            ポイントです
+          </Text>
+        </View>
       </View>
-      <View style={{flex: 1, alignItems: 'center'}}>
-        <Text style={styles.title}>現在のあなたの鳥マイレージは</Text>
-        <Text style={styles.text}>
-          <Text style={styles.point}>{user.point}</Text>
-          ポイントです
-        </Text>
-      </View>
-    </View>
-  );
-};
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -52,3 +73,5 @@ const styles = StyleSheet.create({
     fontSize: 30
   }
 });
+
+export default MypageScreen;
