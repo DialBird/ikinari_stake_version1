@@ -20,7 +20,7 @@ class BirdSpotScreen extends React.Component {
     const { name, top_image } = item;
     const { navigate } = this.props.navigation;
     return (
-      <TouchableOpacity style={styles.row} onPress={()=>navigate('InfoDetail', { item })}>
+      <TouchableOpacity style={styles.row} onPress={()=>navigate('BirdSpotDetail', { item })}>
         <View style={styles.imageSection}>
           <Image
             style={styles.image}

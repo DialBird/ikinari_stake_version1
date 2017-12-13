@@ -10,7 +10,7 @@ import {
 import { connect } from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
 import {
-  INFO, RANK, MYPAGE, MENU, BIRDSPOT, COUPON, SHOPPING, SNS, OTHERS
+  INFO, RANK, MYPAGE, MENU, BIRD_SPOT, COUPON, SHOPPING, SNS, OTHERS
 } from '../titles';
 import { getToken, getProfile } from '../auth';
 import { setUser } from '../actions';
@@ -85,7 +85,7 @@ class HomeScreen extends React.Component {
               onPress={()=>navigate('Menu')}
             />
             <BlockButton
-              title={BIRDSPOT}
+              title={BIRD_SPOT}
               icon='ios-search'
               onPress={()=>navigate('BirdSpot')}
             />

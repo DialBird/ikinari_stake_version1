@@ -8,4 +8,4 @@ export const COUPON = '会員特典';
 export const SHOPPING = 'ショップ';
 export const SNS = 'Facebook';
 export const OTHERS = 'その他';
-export const BIRDSPOT = '野鳥スポット';
+export const BIRD_SPOT = '野鳥スポット';

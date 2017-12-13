@@ -12,3 +12,4 @@ export { default as ShoppingScreen } from './ShoppingScreen';
 export { default as SnsScreen } from './SnsScreen';
 export { default as OthersScreen } from './OthersScreen';
 export { default as BirdSpotScreen } from './BirdSpotScreen';
+export { default as BirdSpotDetailScreen } from './BirdSpotDetailScreen';

@@ -9,13 +9,14 @@ import {
   MypageScreen,
   MenuScreen,
   BirdSpotScreen,
+  BirdSpotDetailScreen,
   CouponScreen,
   ShoppingScreen,
   SnsScreen,
   OthersScreen
 } from './screens';
 import {
-  INFO, INFO_DETAIL, RANK, MYPAGE, MENU, BIRDSPOT, COUPON, SHOPPING, SNS, OTHERS
+  INFO, INFO_DETAIL, RANK, MYPAGE, MENU, BIRD_SPOT, COUPON, SHOPPING, SNS, OTHERS
 } from './titles';
 
 const SignedOut = StackNavigator({
@@ -80,7 +81,13 @@ const SignedIn = StackNavigator({
     screen: BirdSpotScreen,
     navigationOptions: {
       gesturesEnabled: false,
-      title: BIRDSPOT
+      title: BIRD_SPOT
+    }
+  },
+  BirdSpotDetail: {
+    screen: BirdSpotDetailScreen,
+    navigationOptions: {
+      gesturesEnabled: false
     }
   },
   Coupon: {
