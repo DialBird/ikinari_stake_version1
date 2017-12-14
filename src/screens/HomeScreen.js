@@ -4,16 +4,15 @@ import {
   Text,
   View,
   Image,
-  TouchableOpacity,
   Dimensions
 } from 'react-native';
 import { connect } from 'react-redux';
-import Icon from 'react-native-vector-icons/Ionicons';
 import {
   INFO, RANK, MYPAGE, MENU, BIRD_SPOT, COUPON, SHOPPING, SNS, OTHERS
 } from '../titles';
 import { getToken, getProfile } from '../auth';
 import { setUser } from '../actions';
+import { BlockButton } from '../components';
 
 const MyStatus = ({ user }) => {
   if (!user) user = { name: '', point: 0 };
@@ -26,12 +25,6 @@ const MyStatus = ({ user }) => {
   );
 };
 
-const BlockButton = ({ icon, title, onPress }) => (
-  <TouchableOpacity style={styles.blockButton} onPress={onPress}>
-    <Icon name={icon} size={30} />
-    <Text>{title}</Text>
-  </TouchableOpacity>
-);
 
 class HomeScreen extends React.Component {
   componentWillMount() {
@@ -66,6 +59,7 @@ class HomeScreen extends React.Component {
               title={INFO}
               icon='ios-information-circle'
               onPress={()=>navigate('Info')}
+              num={3}
             />
             <BlockButton
               title={RANK}
@@ -128,13 +122,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flex: 1,
     height: 30
-  },
-  blockButton: {
-    flex: 1,
-    borderWidth: 1,
-    backgroundColor: '#fff',
-    justifyContent: 'center',
-    alignItems: 'center'
   },
   image: {
     flex: 1,
