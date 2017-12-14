@@ -11,16 +11,6 @@ import { ButtonGroup } from 'react-native-elements';
 import { USERS_URL } from '../urls';
 import { Separator } from '../components';
 
-const MyStatus = ({ user }) => {
-  const { name, point } = user;
-  return (
-    <View style={styles.myStatusContainer}>
-      <Text style={{fontSize: 16, lineHeight: 24}}>{name} さんの現在のマイレージ</Text>
-      <Text style={{fontSize: 24, color: '#f00'}}>{point}</Text>
-    </View>
-  );
-};
-
 const ButtonGroupItem = ({ iconName, title }) => (
   <View style={{alignItems: 'center'}}>
     <Icon
@@ -104,7 +94,6 @@ class RankScreen extends React.Component {
     ];
     return (
       <View>
-        <MyStatus user={this.user}/>
         <View style={{paddingVertical: 5}}>
           <ButtonGroup
             selectedIndex={this.state.selectedIndex}
@@ -150,13 +139,6 @@ class RankScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1
-  },
-  myStatusContainer: {
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    paddingVertical: 10,
-    borderWidth: 5,
-    borderColor: '#d771ff'
   },
   buttonGroup: {
     height: 100,
