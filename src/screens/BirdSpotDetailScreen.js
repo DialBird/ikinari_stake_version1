@@ -2,6 +2,7 @@ import React from 'react';
 import {
   StyleSheet,
   View,
+  Text,
   ScrollView,
   Dimensions
 } from 'react-native';
@@ -18,6 +19,7 @@ class BirdSpotDetailScreen extends React.Component {
     const { item } = props.navigation.state.params;
     this.state = {
       name: item.name,
+      commentary: item.commentary,
       region: {
         latitude: item.lat,
         longitude: item.lon,
@@ -34,7 +36,6 @@ class BirdSpotDetailScreen extends React.Component {
   };
 
   render() {
-    console.log(this.state.region);
     return (
       <ScrollView style={styles.container}>
         <MapView
@@ -44,6 +45,9 @@ class BirdSpotDetailScreen extends React.Component {
         >
           <MapView.Marker coordinate={this.state.region}/>
         </MapView>
+        <View style={styles.commentaryContainer}>
+          <Text style={styles.commentaryText}>{this.state.commentary}</Text>
+        </View>
       </ScrollView>
     );
   }
@@ -55,6 +59,13 @@ const styles = StyleSheet.create({
   },
   map: {
     height: 300,
+  },
+  commentaryContainer: {
+    padding: 20
+  },
+  commentaryText: {
+    fontSize: 16,
+    lineHeight: 24
   }
 });
 
